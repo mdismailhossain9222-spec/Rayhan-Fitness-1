@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F0D77B"/>
+      <stop offset="0.45" stop-color="#D4AF37"/>
+      <stop offset="1" stop-color="#8A6D1F"/>
+    </linearGradient>
+    <rect id="bg" width="64" height="64" rx="12" fill="#0A0A0A"/>
+  </defs>
+  <use href="#bg"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="11" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.75"/>
+  <!-- Crown -->
+  <g fill="url(#gold)">
+    <path d="M20 24 L17 14 L23 18 L26 10 L29 18 L35 18 L38 10 L41 18 L47 14 L44 24 Z"/>
+    <rect x="20" y="26" width="24" height="3.4" rx="1"/>
+  </g>
+  <!-- R monogram -->
+  <text x="32" y="51" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="24" fill="url(#gold)">R</text>
+</svg>

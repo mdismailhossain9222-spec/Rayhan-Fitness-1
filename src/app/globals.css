@@ -1,0 +1,382 @@
+@import "tailwindcss";
+
+:root {
+  --bg-obsidian: #0A0A0A;
+  --bg-charcoal: #0D0D0D;
+  --bg-panel-start: #151515;
+  --bg-panel-end: #1C1C1C;
+  --accent-gold: #D4AF37;
+  --accent-gold-bright: #E8C766;
+  --accent-gold-soft: #F0D77B;
+  --accent-bronze: #8A6D1F;
+  --accent-amber-deep: #5C4813;
+  --text-titanium: #F5F5F5;
+  --text-ash: #B3B3B3;
+  --border-metallic: #2A2A2A;
+  --border-steel: #3D3D3D;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  background-color: #0A0A0A;
+  color: #F5F5F5;
+}
+
+/* Prevent heading overflow/clipping on narrow viewports (320px+) */
+h1,
+h2 {
+  overflow-wrap: break-word;
+}
+
+/* Crisp mobile taps — no gray flash, no accidental text selection on buttons */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  touch-action: manipulation;
+  user-select: none;
+}
+
+body {
+  background-color: #0A0A0A;
+  color: #F5F5F5;
+  font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.85);
+  color: #0A0A0A;
+}
+
+.font-display {
+  font-family: var(--font-bebas), Impact, "Arial Narrow", sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.font-mono-tech {
+  font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle Filmic Grain / Noise Texture Overlay — very low opacity */
+.film-grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Vignette & Gold Spotlight Beams (slow-moving, luxurious — not neon) */
+.cinematic-vignette {
+  background: radial-gradient(
+    circle at 50% 45%,
+    transparent 45%,
+    rgba(10, 10, 10, 0.85) 100%
+  );
+}
+
+.spotlight-beam-red,
+.spotlight-beam-gold {
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 0%,
+    rgba(212, 175, 55, 0.16) 0%,
+    rgba(138, 109, 31, 0.07) 45%,
+    transparent 80%
+  );
+  animation: gold-beam-drift 14s ease-in-out infinite alternate;
+}
+
+.spotlight-beam-gold-wide {
+  background:
+    radial-gradient(ellipse 45% 60% at 20% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 45% 60% at 80% 0%, rgba(212, 175, 55, 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 45% at 50% 0%, rgba(212, 175, 55, 0.14) 0%, transparent 80%);
+  animation: gold-beam-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes gold-beam-drift {
+  0% { opacity: 0.75; transform: translateX(-1.5%) scaleX(1); }
+  50% { opacity: 1; transform: translateX(0%) scaleX(1.03); }
+  100% { opacity: 0.8; transform: translateX(1.5%) scaleX(1); }
+}
+
+/* Soft gold glow text (luxurious, not neon) */
+.crimson-glow-text,
+.gold-glow-text {
+  text-shadow: 0 0 28px rgba(212, 175, 55, 0.35), 0 0 8px rgba(232, 199, 102, 0.22);
+}
+
+/* Dark Glassmorphic Arena Card — gold hover glow */
+.iron-glass-card {
+  background: linear-gradient(
+    145deg,
+    rgba(24, 24, 24, 0.88) 0%,
+    rgba(14, 14, 14, 0.94) 100%
+  );
+  backdrop-filter: blur(16px);
+  border: 1px solid #2A2A2A;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.iron-glass-card:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.92),
+    0 0 28px rgba(212, 175, 55, 0.18),
+    inset 0 1px 0 rgba(232, 199, 102, 0.18);
+}
+
+/* Frosted dark-glass pricing card with thin gold gradient border */
+.gold-glass-card {
+  position: relative;
+  background: linear-gradient(
+    155deg,
+    rgba(26, 24, 18, 0.92) 0%,
+    rgba(15, 14, 11, 0.96) 55%,
+    rgba(10, 10, 10, 0.98) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gold-glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(150deg, rgba(212,175,55,0.55), rgba(212,175,55,0.08) 40%, rgba(212,175,55,0.08) 60%, rgba(138,109,31,0.5));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gold-glass-card:hover {
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.92),
+    0 0 34px rgba(212, 175, 55, 0.22),
+    inset 0 1px 0 rgba(232, 199, 102, 0.22);
+}
+
+/* Popular Package Card — elevated gold with subtle pulsing glow */
+.popular-package-card {
+  background: linear-gradient(
+    155deg,
+    rgba(38, 30, 14, 0.94) 0%,
+    rgba(18, 16, 10, 0.97) 55%,
+    rgba(10, 10, 10, 0.98) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid #D4AF37;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95),
+    0 0 36px rgba(212, 175, 55, 0.22),
+    inset 0 1px 0 rgba(232, 199, 102, 0.25);
+  animation: gold-pulse-glow 3.6s ease-in-out infinite;
+}
+
+@keyframes gold-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95),
+      0 0 30px rgba(212, 175, 55, 0.18),
+      inset 0 1px 0 rgba(232, 199, 102, 0.22);
+  }
+  50% {
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.95),
+      0 0 48px rgba(212, 175, 55, 0.34),
+      inset 0 1px 0 rgba(232, 199, 102, 0.32);
+  }
+}
+
+/* Gold ribbon badge for Most Popular */
+.gold-ribbon-badge {
+  background: linear-gradient(135deg, #E8C766 0%, #D4AF37 40%, #8A6D1F 100%);
+  color: #0A0A0A;
+  border: 1px solid #F0D77B;
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.5);
+}
+
+/* Animated gold checkmark pop */
+@keyframes gold-check-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.gold-check-animated {
+  animation: gold-check-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Matte Black + Gold Glow Buttons */
+.btn-crimson-primary,
+.btn-gold-primary {
+  background: linear-gradient(135deg, #D4AF37 0%, #8A6D1F 100%);
+  color: #0A0A0A;
+  font-weight: 800;
+  border: 1px solid #E8C766;
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.32);
+  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-crimson-primary:hover,
+.btn-gold-primary:hover {
+  background: linear-gradient(135deg, #E8C766 0%, #9A7B24 100%);
+  color: #0A0A0A;
+  box-shadow: 0 0 34px rgba(212, 175, 55, 0.5), 0 8px 24px rgba(0, 0, 0, 0.8);
+  transform: translateY(-2px) scale(1.015);
+}
+
+/* Buy Now: matte black w/ gold border → fills gold gradient + glow pulse on hover */
+.btn-gold-outline,
+.btn-matte-iron {
+  background: rgba(16, 16, 16, 0.92);
+  color: #F5F5F5;
+  border: 1px solid #3D3D3D;
+  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-gold-outline {
+  border-color: rgba(212, 175, 55, 0.65);
+}
+
+.btn-matte-iron:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.3);
+  background: rgba(26, 22, 14, 0.95);
+  transform: translateY(-2px);
+}
+
+.btn-gold-outline:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #8A6D1F 100%);
+  color: #0A0A0A;
+  border-color: #E8C766;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.45);
+  transform: translateY(-2px) scale(1.02);
+  animation: gold-btn-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes gold-btn-pulse {
+  0%, 100% { box-shadow: 0 0 22px rgba(212, 175, 55, 0.35); }
+  50% { box-shadow: 0 0 36px rgba(212, 175, 55, 0.55); }
+}
+
+/* Branch tab animated underline / glow indicator */
+.gold-tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, #E8C766, #D4AF37, transparent);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
+  transition: left 0.38s cubic-bezier(0.22, 1, 0.36, 1), width 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Facebook icon hover glow animation */
+.fb-glow-link {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fb-glow-link:hover {
+  border-color: #D4AF37 !important;
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.45), 0 0 8px rgba(24, 119, 242, 0.35);
+  transform: translateY(-2px) scale(1.06);
+}
+
+.fb-glow-link:hover svg {
+  color: #E8C766 !important;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.8));
+}
+
+/* Dark-to-gold gradient wipe transition between sections */
+.gold-section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.6), rgba(232,199,102,0.8), rgba(212,175,55,0.6), transparent);
+}
+
+/* Official brand crest — subtle gold glow so it pops on dark */
+.brand-logo-glow {
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.28))
+    drop-shadow(0 2px 14px rgba(0, 0, 0, 0.6));
+}
+
+/* Travelling gold shimmer sweep for the preloader crest */
+.brand-shimmer-sweep {
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+.brand-shimmer-sweep::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgba(240, 215, 123, 0.0) 44%,
+    rgba(240, 215, 123, 0.55) 50%,
+    rgba(240, 215, 123, 0.0) 56%,
+    transparent 58%
+  );
+  animation: brand-shimmer-sweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+@keyframes brand-shimmer-sweep {
+  0% { transform: translateX(-45%); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateX(45%); opacity: 0; }
+}
+
+/* Custom Dark Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A2A2A;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* Touch targets: 44px minimum on coarse pointers (mobile tap usability) */
+@media (pointer: coarse) {
+  .btn-crimson-primary,
+  .btn-gold-primary,
+  .btn-gold-outline,
+  .btn-matte-iron {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* BALANCED OPTIMIZATION — all cinematic motion stays fully intact.
+ * No animation, glow pulse, spotlight drift, or shimmer is ever disabled
+ * or flattened. Smooth scrolling is preserved for every visitor. */

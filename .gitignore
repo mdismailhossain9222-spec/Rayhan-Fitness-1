@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Environment & secrets — NEVER commit real credentials
+.env
+.env*.local
+.env.production
+*.pem
+*.key
+
+# Misc
+.DS_Store
+*.log
+coverage/
+.vercel
+.turbo
