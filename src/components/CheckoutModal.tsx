@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 export interface CheckoutSelection {
-  branchSlug: "lalbagh" | "dhanmondi" | "mirpur";
+  branchSlug: string;
   branchName: string;
   durationMonths: 3 | 6 | 12;
   planName: string;
@@ -29,12 +29,14 @@ interface CheckoutModalProps {
 }
 
 const BRANCH_PRICES: Record<
-  "lalbagh" | "dhanmondi" | "mirpur",
+  string,
   { name: string; p3: number; p6: number; p12: number }
 > = {
   lalbagh: { name: "Lalbagh Branch", p3: 1700, p6: 3200, p12: 5700 },
   dhanmondi: { name: "Dhanmondi Branch", p3: 3450, p6: 6300, p12: 9800 },
   mirpur: { name: "Mirpur Branch", p3: 3500, p6: 6000, p12: 10000 },
+  gulshan: { name: "Gulshan Branch", p3: 4200, p6: 7800, p12: 12500 },
+  uttara: { name: "Uttara Branch", p3: 3500, p6: 6000, p12: 10000 },
 };
 
 export default function CheckoutModal({
@@ -42,9 +44,9 @@ export default function CheckoutModal({
   onClose,
   initialSelection,
 }: CheckoutModalProps) {
-  const [branchSlug, setBranchSlug] = useState<
-    "lalbagh" | "dhanmondi" | "mirpur"
-  >(initialSelection?.branchSlug || "dhanmondi");
+  const [branchSlug, setBranchSlug] = useState<string>(
+    initialSelection?.branchSlug || "dhanmondi"
+  );
   const [durationMonths, setDurationMonths] = useState<3 | 6 | 12>(
     initialSelection?.durationMonths || 6
   );

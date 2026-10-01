@@ -313,9 +313,15 @@ body {
 
 /* Official brand crest — subtle gold glow so it pops on dark */
 .brand-logo-glow {
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.28))
-    drop-shadow(0 2px 14px rgba(0, 0, 0, 0.6));
+  /* 
+   * The logo artwork has a pure black background plate. 
+   * mix-blend-mode: multiply makes black transparent on dark backgrounds,
+   * while preserving gold/copper tones vividly. Works better than 'screen' 
+   * for this logo since the navbar uses a dark gradient (not pure black).
+   */
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.35))
+    drop-shadow(0 2px 16px rgba(0, 0, 0, 0.7));
 }
 
 /* Travelling gold shimmer sweep for the preloader crest */

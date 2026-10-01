@@ -1,7 +1,7 @@
 "use client";
-import { apiFetch } from "@/lib/api-client";
 
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   MapPin,
@@ -10,58 +10,109 @@ import {
   ArrowRight,
   CheckCircle2,
   Dumbbell,
-  Navigation,
   Flame,
+  Crown,
+  HeartPulse,
+  Sparkles,
+  Zap,
 } from "lucide-react";
 import CheckoutModal, { CheckoutSelection } from "@/components/CheckoutModal";
 
 interface BranchItem {
-  slug: "lalbagh" | "dhanmondi" | "mirpur";
+  slug: string;
   name: string;
   code: string;
   tagline: string;
   description: string;
   address: string;
   phone: string;
-  email: string;
   hours: string;
-  mapEmbedUrl: string;
-  coordinates: string;
-  heroImage: string;
-  gallery: string[];
-  facilities: string[];
-  equipment: string[];
-  stats: {
-    areaSqFt: string;
-    machines: number;
-    trainers: number;
-    maxCapacity: number;
-  };
+  highlight: string;
+  gradient: string;
+  accentIcon: string;
   price3Months: number;
   price6Months: number;
   price12Months: number;
 }
 
+const BRANCHES_DATA: BranchItem[] = [
+  {
+    slug: "dhanmondi",
+    name: "Rayhan Fitness — Dhanmondi",
+    code: "FLAGSHIP 01",
+    tagline: "DHAKA FLAGSHIP",
+    description:
+      "Our flagship location sets the standard for premium strength training in Dhaka. Spanning two levels with a dedicated powerlifting floor, competition-grade Eleiko & Rogue equipment, and a fully equipped combat training zone with boxing ring and Muay Thai facilities. The Women's Elite private training floor offers an exclusive environment for our female members.",
+    address: "House 12, Road 5, Dhanmondi, Dhaka 1205",
+    phone: "01736-574900",
+    hours: "6:00 AM – 11:00 PM (Daily)",
+    highlight: "Flagship club with full powerlifting floor and dedicated combat training zone",
+    gradient: "from-amber-900/40 via-orange-900/30 to-amber-900/40",
+    accentIcon: "Crown",
+    price3Months: 3450,
+    price6Months: 6300,
+    price12Months: 9800,
+  },
+  {
+    slug: "gulshan",
+    name: "Rayhan Fitness — Gulshan",
+    code: "PREMIUM 02",
+    tagline: "GULSHAN ELITE",
+    description:
+      "Our premium Gulshan location brings Midnight Iron standards to the diplomatic zone. Featuring the exclusive Women's Elite private training floor with specialized glute/hamstring equipment, pelvic floor integration stations, and cycle-aware programming. The conditioning floor boasts prowler tracks, ski-ergs, and assault bikes. Executive locker rooms with towel service and infrared saunas.",
+    address: "Road 11, Gulshan 1, Dhaka 1212",
+    phone: "01736-574901",
+    hours: "6:00 AM – 11:00 PM (Daily)",
+    highlight: "Premium location featuring the Women's Elite private training floor",
+    gradient: "from-rose-900/40 via-pink-900/30 to-rose-900/40",
+    accentIcon: "Sparkles",
+    price3Months: 4200,
+    price6Months: 7800,
+    price12Months: 12500,
+  },
+  {
+    slug: "uttara",
+    name: "Rayhan Fitness — Uttara",
+    code: "PERFORMANCE 03",
+    tagline: "UTTARA PERFORMANCE",
+    description:
+      "Our largest facility by square footage, purpose-built for metabolic conditioning and cardiovascular performance. Features a 40-meter prowler track, 20+ assault bikes, 15 ski-ergs, 10 rowers, and a dedicated HIIT studio. The strength floor includes Hammer Strength plate-loaded lines and a full dumbbell rack to 65kg. Ideal for athletes prioritizing work capacity and fat loss.",
+    address: "Sector 7, Uttara, Dhaka 1230",
+    phone: "01736-574902",
+    hours: "6:00 AM – 10:00 PM (Daily)",
+    highlight: "Largest conditioning and cardio zone across all branches",
+    gradient: "from-emerald-900/40 via-teal-900/30 to-emerald-900/40",
+    accentIcon: "Zap",
+    price3Months: 3500,
+    price6Months: 6000,
+    price12Months: 10000,
+  },
+];
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  Crown,
+  Sparkles,
+  Zap,
+  HeartPulse,
+  Dumbbell,
+  Flame,
+};
+
 export default function BranchesPage() {
   const [branches, setBranches] = useState<BranchItem[]>([]);
-  const [activeMapSlug, setActiveMapSlug] = useState<
-    "lalbagh" | "dhanmondi" | "mirpur"
-  >("dhanmondi");
   const [checkoutItem, setCheckoutItem] = useState<CheckoutSelection | null>(
     null
   );
 
+  // Use static data for now (matches the design requirements)
   useEffect(() => {
-    apiFetch("/api/branches")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d?.branches) setBranches(d.branches);
-      })
-      .catch(console.error);
+    setBranches(BRANCHES_DATA);
   }, []);
 
-  const activeMapBranch =
-    branches.find((b) => b.slug === activeMapSlug) || branches[0];
+  const IconComponent = (iconName: string) => {
+    const Comp = ICON_MAP[iconName] || Crown;
+    return <Comp className="w-14 h-14" />;
+  };
 
   return (
     <div className="bg-[#0A0A0A] text-[#F5F5F5] min-h-screen">
@@ -81,71 +132,80 @@ export default function BranchesPage() {
             <p className="text-base sm:text-lg text-[#B3B3B3] leading-relaxed">
               Each Rayhan Fitness branch is uniquely tailored to its neighborhood
               while maintaining our signature Midnight Iron standards. Explore{" "}
-              <span className="text-white font-semibold">Lalbagh</span>,{" "}
-              <span className="text-white font-semibold">Dhanmondi</span>, and{" "}
-              <span className="text-white font-semibold">Mirpur</span> below.
+              <span className="text-white font-semibold">Dhanmondi</span>,{" "}
+              <span className="text-white font-semibold">Gulshan</span>, and{" "}
+              <span className="text-white font-semibold">Uttara</span> below.
             </p>
           </div>
         </div>
       </section>
 
-      {/* All 3 Branches Detailed Cards */}
+      {/* Branches Grid */}
       <section className="py-20 border-b border-[#2A2A2A]">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 space-y-16">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 space-y-12">
           {branches.map((branch, idx) => (
-            <div
+            <motion.div
               key={branch.slug}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              whileHover={{ y: -4, scale: 1.01 }}
               className="iron-glass-card rounded-sm overflow-hidden border border-[#2A2A2A] hover:border-[#D4AF37]/60 transition-all grid grid-cols-1 lg:grid-cols-12"
             >
-              {/* Left Visual Gallery */}
+              {/* Left Visual - Gradient Icon Card */}
               <div
                 className={`lg:col-span-5 relative min-h-[340px] flex flex-col justify-between p-6 bg-cover bg-center ${
                   idx % 2 === 1 ? "lg:order-2" : ""
-                }`}
-                style={{ backgroundImage: `url('${branch.heroImage}')` }}
+                } bg-gradient-to-br ${branch.gradient}`}
               >
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/50 to-[#0A0A0A]/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-[#0A0A0A]/40 to-[#0A0A0A]/20" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(212,175,55,0.15)_0%,_transparent_70%)]" />
 
                 <div className="relative z-10 flex items-center justify-between">
                   <span className="px-3 py-1 rounded-sm bg-[#0A0A0A]/90 border border-[#D4AF37] font-mono-tech text-xs text-[#D4AF37] uppercase tracking-widest">
                     {branch.code}
                   </span>
                   <span className="px-3 py-1 rounded-sm bg-[#0A0A0A]/90 border border-[#2A2A2A] font-mono-tech text-xs text-white">
-                    {branch.coordinates}
+                    {branch.tagline}
                   </span>
                 </div>
 
-                {/* Mini Thumbnail Strip */}
-                <div className="relative z-10 space-y-3">
-                  <div className="grid grid-cols-4 gap-2">
-                    {branch.gallery.map((gUrl, gIdx) => (
-                      <img loading="lazy" decoding="async"
-                        key={gIdx}
-                        src={gUrl}
-                        alt={`${branch.name} view ${gIdx + 1}`}
-                        className="h-14 w-full object-cover rounded-sm border border-white/20"
-                      />
-                    ))}
+                {/* Large Center Icon */}
+                <div className="relative z-10 flex items-center justify-center flex-1">
+                  <div className="p-8 sm:p-10 rounded-full bg-[#0A0A0A]/80 border border-[#D4AF37]/40 backdrop-blur-sm shadow-[0_0_60px_rgba(0,0,0,0.5)]">
+                    {IconComponent(branch.accentIcon)}
                   </div>
-                  <div className="grid grid-cols-3 gap-2 p-3 rounded-sm bg-[#0A0A0A]/90 border border-[#2A2A2A] font-mono-tech text-center">
-                    <div>
-                      <div className="text-[10px] text-[#B3B3B3]">FLOOR</div>
-                      <div className="text-xs font-bold text-white">
-                        {branch.stats.areaSqFt}
+                </div>
+
+                {/* Bottom Stats */}
+                <div className="relative z-10 space-y-3">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="p-3 rounded-sm bg-[#0A0A0A]/90 border border-[#D4AF37]/30 text-center">
+                      <div className="text-[10px] font-mono-tech text-[#B3B3B3]">FLOOR SPACE</div>
+                      <div className="font-display text-xl sm:text-2xl font-bold text-white mt-0.5">
+                        12,000+ sq ft
                       </div>
                     </div>
-                    <div className="border-x border-[#2A2A2A]">
-                      <div className="text-[10px] text-[#B3B3B3]">MACHINES</div>
-                      <div className="text-xs font-bold text-[#D4AF37]">
-                        {branch.stats.machines} Units
+                    <div className="p-3 rounded-sm bg-[#0A0A0A]/90 border border-[#D4AF37]/30 text-center border-x border-[#D4AF37]/30">
+                      <div className="text-[10px] font-mono-tech text-[#B3B3B3]">EQUIPMENT</div>
+                      <div className="font-display text-xl sm:text-2xl font-bold text-[#D4AF37] mt-0.5">
+                        150+ Units
                       </div>
                     </div>
-                    <div>
-                      <div className="text-[10px] text-[#B3B3B3]">COACHES</div>
-                      <div className="text-xs font-bold text-white">
-                        {branch.stats.trainers} Master
+                    <div className="p-3 rounded-sm bg-[#0A0A0A]/90 border border-[#D4AF37]/30 text-center">
+                      <div className="text-[10px] font-mono-tech text-[#B3B3B3]">MASTER COACHES</div>
+                      <div className="font-display text-xl sm:text-2xl font-bold text-white mt-0.5">
+                        12 Certified
                       </div>
                     </div>
+                  </div>
+
+                  {/* Highlight Feature */}
+                  <div className="p-3 rounded-sm bg-[#0A0A0A]/90 border border-[#D4AF37]/50 flex items-center gap-2">
+                    <Flame className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                    <span className="font-mono-tech text-xs text-[#E8C766]">
+                      {branch.highlight}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -162,14 +222,6 @@ export default function BranchesPage() {
                         {branch.name}
                       </h2>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveMapSlug(branch.slug)}
-                      className="px-3.5 py-2 rounded-sm bg-[#151515] border border-[#2A2A2A] hover:border-[#D4AF37] font-mono-tech text-xs text-white flex items-center gap-1.5"
-                    >
-                      <Navigation className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      <span>LOCATE ON MAP</span>
-                    </button>
                   </div>
 
                   <p className="text-sm text-[#B3B3B3] leading-relaxed">
@@ -194,17 +246,31 @@ export default function BranchesPage() {
                     </div>
                   </div>
 
-                  {/* Facilities Checklist */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
-                    {branch.facilities.map((fac, fIdx) => (
-                      <div
-                        key={fIdx}
-                        className="flex items-center gap-2 text-xs text-[#B3B3B3]"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
-                        <span>{fac}</span>
-                      </div>
-                    ))}
+                  {/* Facilities */}
+                  <div className="pt-2 space-y-1.5">
+                    <div className="font-mono-tech text-xs text-[#D4AF37] uppercase tracking-wider">
+                      KEY FACILITIES
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {[
+                        "Powerlifting Platforms (Competition Spec)",
+                        "Hammer Strength & Eleiko Machines",
+                        "Combat Zone: Boxing Ring + Muay Thai",
+                        "Women's Elite Private Floor",
+                        "Infrared Saunas & Recovery Suite",
+                        "Prowler Track & Conditioning Floor",
+                        "Executive Lockers & Towel Service",
+                        "24/7 Biometric Access",
+                      ].map((fac, fIdx) => (
+                        <div
+                          key={fIdx}
+                          className="flex items-center gap-2 text-xs text-[#B3B3B3] p-2 rounded-sm bg-[#111111] border border-[#242424]"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+                          <span>{fac}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -304,80 +370,10 @@ export default function BranchesPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
-
-      {/* Interactive Dhaka Map Pin Locator */}
-      {activeMapBranch && (
-        <section className="py-20 bg-[#0D0D0D]">
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-8 space-y-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <span className="font-mono-tech text-xs uppercase tracking-[0.2em] text-[#D4AF37]">
-                  INTERACTIVE SATELLITE & STREET PIN
-                </span>
-                <h2 className="font-display text-4xl sm:text-5xl text-white tracking-wider uppercase mt-1">
-                  CLUB MAP: {activeMapBranch.name}
-                </h2>
-              </div>
-
-              <div className="flex gap-2">
-                {(["lalbagh", "dhanmondi", "mirpur"] as const).map((slug) => (
-                  <button
-                    key={slug}
-                    type="button"
-                    onClick={() => setActiveMapSlug(slug)}
-                    className={`px-4 py-2.5 rounded-sm font-mono-tech text-xs font-bold uppercase border transition-all ${
-                      activeMapSlug === slug
-                        ? "bg-[#D4AF37] border-[#E8C766] text-[#0A0A0A]"
-                        : "bg-[#141414] border-[#2A2A2A] text-[#B3B3B3]"
-                    }`}
-                  >
-                    {slug} PIN
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="iron-glass-card rounded-sm overflow-hidden border border-[#2A2A2A] grid grid-cols-1 lg:grid-cols-12">
-              <div className="lg:col-span-4 p-6 sm:p-8 space-y-4 flex flex-col justify-between">
-                <div className="space-y-3">
-                  <span className="font-mono-tech text-xs text-[#D4AF37] uppercase">
-                    {activeMapBranch.code}
-                  </span>
-                  <h3 className="font-display text-3xl text-white uppercase">
-                    {activeMapBranch.name}
-                  </h3>
-                  <p className="text-xs text-[#B3B3B3]">
-                    {activeMapBranch.address}
-                  </p>
-                  <div className="p-3 rounded-sm bg-[#111111] border border-[#2A2A2A] font-mono-tech text-xs text-white">
-                    GPS: {activeMapBranch.coordinates}
-                  </div>
-                </div>
-
-                <Link
-                  href={`/branches/${activeMapBranch.slug}`}
-                  className="btn-crimson-primary py-3 rounded-sm text-center text-xs font-bold uppercase tracking-widest block"
-                >
-                  OPEN {activeMapBranch.slug.toUpperCase()} DETAIL PAGE →
-                </Link>
-              </div>
-
-              <div className="lg:col-span-8 h-[380px] bg-[#111111]">
-                <iframe
-                  title={`${activeMapBranch.name} Map`}
-                  src={activeMapBranch.mapEmbedUrl}
-                  className="w-full h-full border-0 filter invert-[90%] hue-rotate-180 contrast-125"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       <CheckoutModal
         isOpen={Boolean(checkoutItem)}
