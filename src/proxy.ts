@@ -7,7 +7,7 @@ import {
 import type { Database } from "./lib/supabase/types";
 
 /**
- * Edge middleware — two jobs:
+ * Edge proxy — two jobs:
  *  A. /api/* — existing hardened shield (strict CORS, CSRF enforcement,
  *     tiered edge rate limiting, CSRF-cookie provisioning).
  *  B. Pages — Supabase session-token refresh on every request + private
@@ -120,7 +120,7 @@ function isAdminPath(pathname: string): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // ================= A. API shield (existing behavior) =====================

@@ -34,22 +34,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    // Tree-shake barrel imports for smaller client bundles.
-    optimizePackageImports: ["lucide-react", "framer-motion"],
-  },
   async headers() {
     return [
-      // Immutable hashed build assets — cache for a year at edge + browser.
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
       // Brand + icon media — 7 days with background revalidation.
       {
         source: "/images/:path*",

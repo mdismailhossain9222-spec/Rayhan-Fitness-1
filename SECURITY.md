@@ -20,7 +20,7 @@
 - `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (camera/mic/geolocation/payment disabled), `Cross-Origin-Opener-Policy: same-origin`, `Cross-Origin-Resource-Policy: same-origin`, `X-Permitted-Cross-Domain-Policies: none`, `X-DNS-Prefetch-Control: on`.
 - `X-Powered-By` removed (`poweredByHeader: false`).
 
-## 3. CORS (`src/middleware.ts`)
+## 3. CORS (`src/proxy.ts`)
 
 - Same-origin + explicit `ALLOWED_ORIGINS` whitelist only.
 - Any `/api/*` request carrying a non-listed `Origin` is rejected with `403`.
@@ -39,7 +39,7 @@ Triple-layer (OWASP compliant):
 
 | Layer | Where |
 |---|---|
-| Edge sliding-window tiers (auth 20/15m, contact 10/15m, vitals 120/m, default 180/m) | `src/middleware.ts` |
+| Edge sliding-window tiers (auth 20/15m, contact 10/15m, vitals 120/m, default 180/m) | `src/proxy.ts` |
 | Route-level sliding windows (login 15/15m, signup 10/15m, contact 8/15m, refresh 30/15m, forgot 5/h, reset 10/15m, webhooks 60/m, vitals 120/m) | `checkRateLimit()` in `src/lib/security.ts` |
 | **Per-account exponential lockout**: 5 failures → 60s lock, doubling per further failure up to 1h | `recordLoginFailure()` / `isAccountLocked()` |
 | Cloudflare rate-limit rules (production) | `docs/DEPLOYMENT.md` |
